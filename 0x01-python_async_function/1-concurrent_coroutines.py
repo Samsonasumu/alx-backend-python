@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""     The list of the delays should be in ascending order without using sort() because of concurrency."""
+"""
+spawn multiple coroutines & return the list of all delays in ascending order
+"""
 import asyncio
 import random
 from typing import List
@@ -10,21 +12,25 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 async def wait_n(n: int = 0, max_delay: int = 10) -> List[float]:
     """
-        Args:
-            max_delay: max wait
-            n: spawn function
-
-        Return:
-            float time random
+     return list of all delays which is a float values
     """
+    # Define an empty list called delays to store the float values
     delays: List[float] = []
+    # Define an empty list called tasks to store the tasks
     tasks: List = []
 
     for _ in range(n):
-        tasks.append(wait_random(max_delay))
+        # Create a new task using wait_random() and add it to tasks
+        task = asyncio.create_task(wait_random(max_delay))
+        tasks.append(task)
+        tasks.append(task)
 
-    for task in asyncio.as_completed((tasks)):
+    # Loop over the tasks as they are completed
+    for task in asyncio.as_completed(tasks):
+        # Wait for the task to complete and store the result in delay
         delay = await task
+        # Add the delay value to the delays list
         delays.append(delay)
 
-    return delays
+    # Sorted the delays in ascending order
+    return sorted(delays)

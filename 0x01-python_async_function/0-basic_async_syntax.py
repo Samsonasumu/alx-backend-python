@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
-"""This is the  Basic syntax of the await async """
+"""
+asynchronous coroutine that takes integer argument,return random float value
+"""
 import asyncio
 import random
 
 
 async def wait_random(max_delay: int = 10) -> float:
-    """
-        Args:
-            max_delay: max wait
-
-        Return:
-            float time random
-    """
+    """returns random float value"""
     delay: float = random.uniform(0, max_delay)
     await asyncio.sleep(delay)
-
     return delay
